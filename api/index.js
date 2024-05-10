@@ -4,10 +4,13 @@ import dotenv from "dotenv";
 import userRoutes from "./route/user.route.js";
 import authRoutes from "./route/auth.route.js";
 dotenv.config();
-
-mongoose.connect(process.env.MONGO).then(() => {
-  console.log("MongoDB is connected");
-});
+mongoose
+  .connect(
+    "mongodb+srv://pankaj:pankaj@mern-blog.g1uylyi.mongodb.net/?retryWrites=true&w=majority&appName=mern-blog"
+  )
+  .then(() => {
+    console.log("MongoDB is connected");
+  });
 const app = express();
 
 app.use(express.json());
