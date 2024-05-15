@@ -1,7 +1,7 @@
 import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
-import jwt from "jsonwebtoken";
+import JWT from "jsonwebtoken";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -50,13 +50,54 @@ export const SignIn = async (req, res, next) => {
 
     const validPassword = bcryptjs.compareSync(password, validUser.password);
     if (!validPassword) {
-      return next(errorHandler(404, "Incorrect Password"));
+      return next(errorHandler(404, "Incorrect Credentials"));
     }
 
-    const token = jwt.sign({ id: validUser._id },'testkey');
+    const token = JWT.sign({ id: validUser._id }, "secret_key");
 
     const { password: pass, ...rest } = validUser._doc;
-    res.status(200).json("access_token", token, { httpOnly: true }).json(validUser);
+
+    res
+      .status(200)
+      .cookie("access_token", token, { httpOnly: true })
+      .json(rest);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const Google = async (req, res, next) => {
+  const { email, name, googlePhotoURL } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (user) {
+      const token = JWT.sign({ id: user._id }, "secret_key");
+      const { password, ...rest } = user._doc;
+      res
+        .status(200)
+        .cookie("access_token", token, { httpOnly: true })
+        .json(rest);
+    } else {
+      const generatedPassword =
+        Math.random().toString(36).slice(-8) +
+        Math.random().toString(36).slice(-8);
+      const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+
+      const newUser = new User({
+        username:
+          name.toLowerCase().split(" ").join("") + Math.random().toString(9).slice(-4),
+        email,
+        password: hashedPassword,
+        profilePicture: googlePhotoURL,
+      });
+      await newUser.save();
+      const token = JWT.sign({ id: user._id }, "secret_key");
+      const { password, ...rest } = user._doc;
+      res
+        .status(200)
+        .cookie("access_token", token, { httpOnly: true })
+        .json(rest);
+    }
   } catch (error) {
     next(error);
   }
