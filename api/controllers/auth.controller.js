@@ -75,7 +75,7 @@ export const Google = async (req, res, next) => {
       const { password, ...rest } = user._doc;
       res
         .status(200)
-        .cookie("access_token", token, { httpOnly: true })
+        .cookie("token_new", token, { httpOnly: true })
         .json(rest);
     } else {
       const generatedPassword =
@@ -85,11 +85,13 @@ export const Google = async (req, res, next) => {
 
       const newUser = new User({
         username:
-          name.toLowerCase().split(" ").join("") + Math.random().toString(9).slice(-4),
+          name.toLowerCase().split(" ").join("") +
+          Math.random().toString(9).slice(-4),
         email,
         password: hashedPassword,
         profilePicture: googlePhotoURL,
       });
+      console.log(profilePicture);
       await newUser.save();
       const token = JWT.sign({ id: user._id }, "secret_key");
       const { password, ...rest } = user._doc;
