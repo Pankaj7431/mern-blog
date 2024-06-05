@@ -11,11 +11,10 @@ export default function CreatePost() {
         <div className="flex justify-between flex-col gap-4 sm:flex-row">
           <TextInput
             type="text"
-            placeholder="Ttile"
+            placeholder="Title"
             required
-            id="title
-            "
-            className="flex-1 "
+            id="title"
+            className="flex-1"
           />
           <Select>
             <option value="uncategorized">Select a category</option>
@@ -24,7 +23,10 @@ export default function CreatePost() {
             <option value="nextjs">Next.js</option>
           </Select>
         </div>
-        <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
+        <div
+          id="content"
+          className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3"
+        >
           <FileInput type="file" accept="image/*" />
           <Button gradientDuoTone="purpleToBlue" size="sm" outline>
             Upload an image
@@ -36,7 +38,9 @@ export default function CreatePost() {
           className="h-72 mb-12"
           required
         />
-        <Button type="submit" gradientDuoTone='purpleToPink'>Publish</Button>
+        <Button type="submit" gradientDuoTone="purpleToPink">
+          Publish
+        </Button>
       </form>
     </div>
   );

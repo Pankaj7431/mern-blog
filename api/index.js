@@ -3,10 +3,12 @@ import mongoose from "mongoose";
 import userRoutes from "./route/user.route.js";
 import authRoutes from "./route/auth.route.js";
 import cookieParser from "cookie-parser";
-
+import postRoutes from "./route/post.route.js";
 
 mongoose
-  .connect("mongodb+srv://pankaj:pankaj@mern-blog.g1uylyi.mongodb.net/?retryWrites=true&w=majority&appName=mern-blog")
+  .connect(
+    "mongodb+srv://pankaj:pankaj@mern-blog.g1uylyi.mongodb.net/?retryWrites=true&w=majority&appName=mern-blog"
+  )
   .then(() => {
     console.log("MongoDB is connected");
   });
@@ -22,6 +24,7 @@ app.listen(3000, () => {
 
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/post", postRoutes);
 
 //Middleware
 app.use((err, req, res, next) => {
