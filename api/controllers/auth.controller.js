@@ -53,7 +53,10 @@ export const SignIn = async (req, res, next) => {
       return next(errorHandler(404, "Incorrect Credentials"));
     }
 
-    const token = JWT.sign({ id: validUser._id }, "secret_key");
+    const token = JWT.sign(
+      { id: validUser._id, isAdmin: validUser.isAdmin },
+      "secret_key"
+    );
 
     const { password: pass, ...rest } = validUser._doc;
 
@@ -71,12 +74,12 @@ export const Google = async (req, res, next) => {
   try {
     const user = await User.findOne({ email });
     if (user) {
-      const token = JWT.sign({ id: user._id }, "secret_key");
+      const token = JWT.sign(
+        { id: user._id, isAdmin: user.isAdmin },
+        "secret_key"
+      );
       const { password, ...rest } = user._doc;
-      res
-        .status(200)
-        .cookie("token_new", token, { httpOnly: true })
-        .json(rest);
+      res.status(200).cookie("token_new", token, { httpOnly: true }).json(rest);
     } else {
       const generatedPassword =
         Math.random().toString(36).slice(-8) +
@@ -93,7 +96,10 @@ export const Google = async (req, res, next) => {
       });
       console.log(profilePicture);
       await newUser.save();
-      const token = JWT.sign({ id: user._id }, process.env.JWT_SKEY);
+      const token = JWT.sign(
+        { id: newUser._id, isAdmin: newUser.isAdmin },
+        process.env.JWT_SKEY
+      );
       console.log(process.env.JWT_SKEY);
       const { password, ...rest } = user._doc;
       res
