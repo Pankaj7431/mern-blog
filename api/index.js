@@ -2,14 +2,11 @@ import express from "express";
 import mongoose from "mongoose";
 import userRoutes from "./route/user.route.js";
 import authRoutes from "./route/auth.route.js";
-import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 
-dotenv.config();
+
 mongoose
-  .connect(
-    "mongodb+srv://pankaj:pankaj@mern-blog.g1uylyi.mongodb.net/?retryWrites=true&w=majority&appName=mern-blog"
-  )
+  .connect("mongodb+srv://pankaj:pankaj@mern-blog.g1uylyi.mongodb.net/?retryWrites=true&w=majority&appName=mern-blog")
   .then(() => {
     console.log("MongoDB is connected");
   });

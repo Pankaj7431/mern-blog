@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export const signup = async (req, res, next) => {
+export const SignUp = async (req, res, next) => {
   const { username, email, password } = req.body;
   if (
     !username ||
@@ -93,7 +93,8 @@ export const Google = async (req, res, next) => {
       });
       console.log(profilePicture);
       await newUser.save();
-      const token = JWT.sign({ id: user._id }, "secret_key");
+      const token = JWT.sign({ id: user._id }, process.env.JWT_SKEY);
+      console.log(process.env.JWT_SKEY);
       const { password, ...rest } = user._doc;
       res
         .status(200)
