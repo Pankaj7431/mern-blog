@@ -7,6 +7,7 @@ import { app } from "../Firebase.js";
 import { useDispatch } from "react-redux";
 import { signInSuccess } from "../Redux/User/userSlice.js";
 
+
 export default function OAuth() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
@@ -19,6 +20,7 @@ export default function OAuth() {
       const resultFromGoogle = await signInWithPopup(auth, provider);
       const res = await fetch("/api/auth/google", {
         method: "POST",
+        mode: "cors",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({
           name: resultFromGoogle.user.displayName,
@@ -32,7 +34,7 @@ export default function OAuth() {
         navigate("/");
       }
     } catch (error) {
-      console.log(error);
+      
     }
   };
   return (
