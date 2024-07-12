@@ -14,14 +14,14 @@ mongoose
     console.log("MongoDB is connected");
   });
 const app = express();
-app.use(cors({
-  'allowedHeaders': ['sessionId', 'Content-Type', 'Authorization', 'authorization'],
-  'exposedHeaders': ['sessionId'],
-  'origin': ['https://eccentrictoad.com', 'https://www.eccentrictoad.com'],
-  'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  'credentials': false,
-  'preflightContinue': false
-}));
+// app.use(cors({
+//   'allowedHeaders': ['sessionId', 'Content-Type', 'Authorization', 'authorization'],
+//   'exposedHeaders': ['sessionId'],
+//   'origin': ['https://eccentrictoad.com', 'https://www.eccentrictoad.com'],
+//   'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//   'credentials': false,
+//   'preflightContinue': false
+// }));
 
 app.use(express.json());
 
